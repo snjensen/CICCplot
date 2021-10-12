@@ -1,11 +1,9 @@
-
 gamma_r_rec_pcm <- function(pars, r, par.grp){
   
   if (r == 0) return( 1 )
   if (r > length(pars)| r<0) return( 0 )
   if (r != 0 | r <= length(pars)) return( sum(exp(pars[par.grp==1]) * sapply(1:length(pars[par.grp==1]), FUN = function(x){gamma_r_rec_pcm( pars = pars[par.grp!=1], r = r-x, par.grp = par.grp[par.grp!=1]-1)})) +  gamma_r_rec_pcm(pars = pars[par.grp!=1], r = r, par.grp = par.grp[par.grp!=1]-1))
 }
-
 
 
 #' Conditional Item Characteristic Curves for Rasch models
@@ -30,11 +28,11 @@ gamma_r_rec_pcm <- function(pars, r, par.grp){
 #' @param x.axis.seq 
 #' @return A single CICC-plot or a grid of CICC-plots.
 #' @export
-#'
+#' 
+#' @import ggplot2
+#' @import ggpubr
 #' @examples
 #' 
-#' 
-
 
 # CICCplot for PCM/RM-models
 CICCplot <- function(model, which.item = 1, lower.groups = NULL, all.items = F, grid.items = T, error.bar = F,  color = NULL, plot.title = "itemnumber", x.axis.seq = NULL){

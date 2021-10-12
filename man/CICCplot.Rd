@@ -48,5 +48,4 @@ This function construct Conditional Item Characteristic Curves for selected item
 }
 \examples{
 
-
 }

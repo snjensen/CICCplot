@@ -1,10 +1,11 @@
 Package: CICCrasch
 Type: Package
-Title: What the package does (short line)
+Title: Graphical investigation of itemfit for dichotomous and polytomous Rasch models
 Version: 1.0
 Date: 2021-09-14
-Author: Who wrote it
+Author: Sidsel Jensen
 Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
+Description: Construction of plots for graphically investigation of itemfit dichotomous and polytomous Rasch models estimated using eRm-package.
 License: What license is it under?
 RoxygenNote: 7.1.1
+Imports: eRm, ggpubr, ggplot2

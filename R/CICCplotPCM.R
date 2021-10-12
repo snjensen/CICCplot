@@ -8,24 +8,29 @@ gamma_r_rec_pcm <- function(pars, r, par.grp){
 
 #' Conditional Item Characteristic Curves for Rasch models
 #' 
-#' This function construct Conditional Item Characteristic Curves for selected items in a Rasch-model. These plots can be used to investigate mis-fit of the model. 
+#' This function construct Conditional Item Characteristic Curves for selected items in a Rasch-model. These plots can be used to investigate miss-fit of the model. 
 #'
 #' @param model A model object returned from either RM() or PCM() from \code{eRm}-package
 #' @param which.item An integer or vector of integers giving the item(s), for which a CICC-plot should be constructed. 
 #' The default is \code{which.item=1}. The argument will not be used if \code{all.items = TRUE}.
-#' @param lower.groups  A vector used for dividing the set of possible total scores into intervals, for which the empirical expected item-score will be calculated and added to the plot. The vector should contain the lower points of the intervals, that the set of possible total scores should be divided into. If zero does not appear in the vector, it will be added automatically. If \code{lower.groups = "all"}, the emperical expected item-score will plottet for every possible total score.
+#' @param lower.groups  A vector used for dividing the set of possible total scores into intervals, for which the empirical expected item-score will be calculated and added to the plot. The vector should contain the lower points of the intervals, that the set of possible total scores should be divided into. If zero does not appear in the vector, it will be added automatically. If \code{lower.groups = "all"}, the empirical expected item-score will be plotted for every possible total score.
 #' @param all.items Argument of type logical. If \code{TRUE} a CICC-plot will be constructed for all items in the model-object.
 #' @param grid.items Argument of type logical. If \code{TRUE}, the items selected by \code{which.item or \code{all.items} will be arranged in grids with at most four plots per grid. Default is \code{grid.items = FALSE}.
-#' @param error.bar Argument of type logical. If \code{TRUE}, errorbars illustrating the emperical confidence interval of the observed means of the conditional item score will be added to the plot(s). The confidence intervals are calculated as follows: For each interval \eqn{l} of the total score, induced by the lower-groups argument, the mean \eqn{x_l}, variance \eqn{var(x_l)}, and number of observations \eqn{n_l} within the interval of the total score will be calculated. The confidence interval for the mean \eqn{x_l} is then found as \eqn{x_l \pm 2\cdot \sqrt(\frac{var(x_l)}{n_l})}. Default value is \code{error.bar = FALSE}.
-#' @param color A list containing the colors which should be used in the plot. The list must be on the form \code{list(expected = "color1", observed = "color2")}. It is possible to choose all colors supported by the \code{ggplot2} package.The default is \code{color = NULL}, which is equivalent to \code{color1} being black and \code{color2} being red.
-#' @param plot.title Argument with the following options for specifying the title of each CICC-plot:
+#' @param error.bar Argument of type logical. If \code{TRUE}, errorbars illustrating the empirical confidence interval of the observed means of the conditional item score will be added to the plot(s). The confidence intervals are calculated as follows: For each interval \eqn{l} of the total score, induced by the lower-groups argument, the mean \eqn{x_l}, variance \eqn{var(x_l)}, and number of observations \eqn{n_l} within the interval of the total score will be calculated. The confidence interval for the mean \eqn{x_l} is then found as \eqn{x_l \pm 2\cdot \sqrt(\frac{var(x_l)}{n_l})}. Default value is \code{error.bar = FALSE}.
+#' 
+#' @param plot.settings A list containing settings for the layout of the figure(s):
+#' \itemize{
+#'    \item \code{color}: A list containing the colors which should be used in the plot. The list must be on the form \code{list(expected = "color1", observed = "color2")}. It is possible to choose all colors supported by the \code{ggplot2} package.The default is \code{color = NULL}, which is equivalent to \code{color1} being black and \code{color2} being red.
+#'    \item \code{plot.title}: Argument with the following options for specifying the title of each CICC-plot:
 #' \itemize{
 #'   \item Construct a title with the number of the item(s) with \code{plot.title = "itemnumber"}.
 #'   \item Use the name of the item(s) as the title of each plot using \code{plot.title = "itemnane"}.
 #'   \item Add user-specified titles to each plot by stating all titles in a character vector on the form \code{plot.title = c("Title1", "Title2", ...)}. This option can not be combined with \code{"itemnumber"} and \code{"itemname"}.
 #'   \item To get no title(s) use \code{plot.title = c("", "", ...)}.
 #' }
-#' @param x.axis.seq 
+#' \item \code{x.axis.seq}: 
+#' }
+#' 
 #' @return A single CICC-plot or a grid of CICC-plots.
 #' @export
 #' 
@@ -35,7 +40,7 @@ gamma_r_rec_pcm <- function(pars, r, par.grp){
 #' 
 
 # CICCplot for PCM/RM-models
-CICCplot <- function(model, which.item = 1, lower.groups = NULL, all.items = F, grid.items = T, error.bar = F,  color = NULL, plot.title = "itemnumber", x.axis.seq = NULL){
+CICCplot <- function(model, which.item = 1, lower.groups = NULL, all.items = F, grid.items = T, error.bar = F, plot.settings = list( color = NULL, plot.title = NULL, x.axis.seq = NULL)){
   
   data <- model$X
   betas <- model$betapar
@@ -109,15 +114,16 @@ CICCplot <- function(model, which.item = 1, lower.groups = NULL, all.items = F, 
     
     if (error.bar){ data_obs$CI.bound <- 1.96*sqrt(data_obs[,3]/data_obs[,4]) } 
     
-    if (plot.title[1] == "itemname") { plottitle <- paste0(colnames(model$X)[which.item]) } else if (plot.title[1] == "itemnumber"){
-      plottitle <- paste0("Item ", which.item) } else {plottitle <- plot.title[1]}
+    if (is.null(plot.settings$plot.title)) {plottitle <- paste0("Item ", which.item)} else{
+      if (plot.settings$plot.title[1] == "itemname") { plottitle <- paste0(colnames(model$X)[which.item]) } else if (plot.settings$plot.title[1] == "itemnumber"){
+        plottitle <- paste0("Item ", which.item) } else {plottitle <- plot.settings$plot.title[1]}}
     
     
     col <- c("Expected" = "black", "Observed" = "red")
-    if (!is.null(color)) col <- c("Expected" = color$expected[1], "Observed" = color$observed[1])
+    if (!is.null(plot.settings$color)) col <- c("Expected" = plot.settings$color$expected[1], "Observed" = plot.settings$color$observed[1])
     
     xaxis.breaks <- Tot.val
-    if (!is.null(x.axis.seq)) xaxis.breaks <- x.axis.seq
+    if (!is.null(plot.settings$x.axis.seq)) xaxis.breaks <- plot.settings$x.axis.seq
     
     p <- ggplot(data = data_exp, aes(x = Tot.val, y= exp.val, color = "Expected")) + 
       geom_line(linetype = "dashed") + geom_point() +
@@ -207,14 +213,16 @@ CICCplot <- function(model, which.item = 1, lower.groups = NULL, all.items = F, 
       data_obs <- data.frame(Tot.val_grp, obs.val_grp, var.val_grp, n.val_grp, CI.bound = NA)
       
       if (error.bar){ data_obs$CI.bound <- 1.96*sqrt(data_obs[,3]/data_obs[,4]) } 
-      if (plot.title[1] == "itemname") { plottitle <- paste0(colnames(model$X)[which.item]) } else if (plot.title[1] == "itemnumber"){
-        plottitle <- paste0("Item ", which.item) } else {plottitle <- plot.title[j]}
+      
+      if(is.null(plot.settings$plot.title)) {plottitle <- paste0("Item ", which.item)} else{
+      if (plot.settings$plot.title[1] == "itemname") { plottitle <- paste0(colnames(model$X)[which.item]) } else if (plot.settings$plot.title[1] == "itemnumber"){
+        plottitle <- paste0("Item ", which.item) } else {plottitle <- plot.settings$plot.title[j]}}
       
       col <- c("Expected" = "black", "Observed" = "red")
-      if (!is.null(color)) col <- c("Expected" = color$expected[1], "Observed" = color$observed[1])
+      if (!is.null(plot.settings$color)) col <- c("Expected" = plot.settings$color$expected[1], "Observed" = plot.settings$color$observed[1])
       
       xaxis.breaks <- Tot.val
-      if (!is.null(x.axis.seq)) xaxis.breaks <- x.axis.seq
+      if (!is.null(plot.settings$x.axis.seq)) xaxis.breaks <- plot.settings$x.axis.seq
       
       p <- ggplot(data = data_exp, aes(x = Tot.val, y= exp.val, color = "Expected")) + 
         geom_line(linetype = "dashed") + geom_point() +

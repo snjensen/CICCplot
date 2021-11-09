@@ -11,7 +11,8 @@ CICCplot(
   all.items = F,
   grid.items = T,
   error.bar = F,
-  plot.settings = list(color = NULL, plot.title = NULL, x.axis.seq = NULL)
+  plot.settings = list(color = NULL, plot.title = NULL, x.axis.seq = NULL, y.axis.title
+    = NULL)
 )
 }
 \arguments{
@@ -37,6 +38,7 @@ The default is \code{which.item=1}. The argument will not be used if \code{all.i
   \item To get no title(s) use \code{plot.title = c("", "", ...)}.
 }
 \item \code{x.axis.seq}: A vector containing the values of the breaks on the x-axis. The default is the complete sequence of all possible total scores. 
+\item \code{y.axis.title}: A character, which should be the label on the the y-axis. If no label is given, the default is "Conditional Item-Score".
 }}
 }
 \value{

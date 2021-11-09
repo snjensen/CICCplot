@@ -29,6 +29,7 @@ gamma_r_rec_pcm <- function(pars, r, par.grp){
 #'   \item To get no title(s) use \code{plot.title = c("", "", ...)}.
 #' }
 #' \item \code{x.axis.seq}: A vector containing the values of the breaks on the x-axis. The default is the complete sequence of all possible total scores. 
+#' \item \code{y.axis.title}: A character, which should be the label on the the y-axis. If no label is given, the default is "Conditional Item-Score".
 #' }
 #' 
 #' @return A single CICC-plot or a grid of CICC-plots.
@@ -40,7 +41,7 @@ gamma_r_rec_pcm <- function(pars, r, par.grp){
 #' 
 
 # CICCplot for PCM/RM-models
-CICCplot <- function(model, which.item = 1, lower.groups = NULL, all.items = F, grid.items = T, error.bar = F, plot.settings = list( color = NULL, plot.title = NULL, x.axis.seq = NULL)){
+CICCplot <- function(model, which.item = 1, lower.groups = NULL, all.items = F, grid.items = T, error.bar = F, plot.settings = list( color = NULL, plot.title = NULL, x.axis.seq = NULL, y.axis.title = NULL)){
   
   data <- model$X
   betas <- model$betapar
@@ -118,6 +119,7 @@ CICCplot <- function(model, which.item = 1, lower.groups = NULL, all.items = F, 
       if (plot.settings$plot.title[1] == "itemname") { plottitle <- paste0(colnames(model$X)[which.item]) } else if (plot.settings$plot.title[1] == "itemnumber"){
         plottitle <- paste0("Item ", which.item) } else {plottitle <- plot.settings$plot.title[1]}}
     
+    if(is.null(plot.settings$y.axis.title)){yaxistitle <- paste0("Conditional Item-Score")} else{ yaxistitle <- plot.settings$y.axis.title}
     
     col <- c("Expected" = "black", "Observed" = "red")
     if (!is.null(plot.settings$color)) col <- c("Expected" = plot.settings$color$expected[1], "Observed" = plot.settings$color$observed[1])
@@ -129,7 +131,7 @@ CICCplot <- function(model, which.item = 1, lower.groups = NULL, all.items = F, 
       geom_line(linetype = "dashed") + geom_point() +
       geom_point(data = data_obs, aes(x = Tot.val_grp, y = obs.val_grp, color = "Observed"), size = 2) +
       theme(legend.title = element_blank(), plot.title = element_text(size = 15,hjust = 0.5)) + scale_colour_manual(values = col) +
-      ggtitle(plottitle) + xlab("Total Score") + ylab("Conditional Item-Score")  + 
+      ggtitle(plottitle) + xlab("Total Score") + ylab(yaxistitle)  + 
       scale_x_continuous(breaks= xaxis.breaks) + geom_errorbar(data = data_obs, 
                                                                aes(x = Tot.val_grp, y = obs.val_grp, ymin = obs.val_grp - CI.bound, ymax = obs.val_grp + CI.bound, color = "Observed"), 
                                                                width = 0.2, size = 1)
@@ -218,6 +220,8 @@ CICCplot <- function(model, which.item = 1, lower.groups = NULL, all.items = F, 
       if (plot.settings$plot.title[1] == "itemname") { plottitle <- paste0(colnames(model$X)[which.item]) } else if (plot.settings$plot.title[1] == "itemnumber"){
         plottitle <- paste0("Item ", which.item) } else {plottitle <- plot.settings$plot.title[j]}}
       
+      if(is.null(plot.settings$y.axis.title)){yaxistitle <- paste0("Conditional Item-Score")} else{ yaxistitle <- plot.settings$y.axis.title}
+      
       col <- c("Expected" = "black", "Observed" = "red")
       if (!is.null(plot.settings$color)) col <- c("Expected" = plot.settings$color$expected[1], "Observed" = plot.settings$color$observed[1])
       
@@ -228,7 +232,7 @@ CICCplot <- function(model, which.item = 1, lower.groups = NULL, all.items = F, 
         geom_line(linetype = "dashed") + geom_point() +
         geom_point(data = data_obs, aes(x = Tot.val_grp, y = obs.val_grp, color = "Observed"), size = 2) +
         theme(legend.title = element_blank(), plot.title = element_text(size = 15,hjust = 0.5)) + scale_colour_manual(values = col) +
-        ggtitle(plottitle) + xlab("Total Score") + ylab("Conditional Item-Score")  + 
+        ggtitle(plottitle) + xlab("Total Score") + ylab(yaxistitle)  + 
         scale_x_continuous(breaks=xaxis.breaks) + 
         geom_errorbar(data = data_obs, 
                       aes(x = Tot.val_grp, y = obs.val_grp, ymin = obs.val_grp - CI.bound, ymax = obs.val_grp + CI.bound, color = "Observed"), 
@@ -249,3 +253,4 @@ CICCplot <- function(model, which.item = 1, lower.groups = NULL, all.items = F, 
   }
   P
 }
+

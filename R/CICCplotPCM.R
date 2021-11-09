@@ -8,7 +8,7 @@ gamma_r_rec_pcm <- function(pars, r, par.grp){
 
 #' Conditional Item Characteristic Curves for Rasch models
 #' 
-#' This function construct Conditional Item Characteristic Curves for selected items in a Rasch-model. These plots can be used to investigate miss-fit of the model. 
+#' This function construct Conditional Item Characteristic Curves for selected items in a Rasch-model. These plots can be used to investigate item misfit. 
 #'
 #' @param model A model object returned from either RM() or PCM() from \code{eRm}-package
 #' @param which.item An integer or vector of integers giving the item(s), for which a CICC-plot should be constructed. 
@@ -28,7 +28,7 @@ gamma_r_rec_pcm <- function(pars, r, par.grp){
 #'   \item Add user-specified titles to each plot by stating all titles in a character vector on the form \code{plot.title = c("Title1", "Title2", ...)}. This option can not be combined with \code{"itemnumber"} and \code{"itemname"}.
 #'   \item To get no title(s) use \code{plot.title = c("", "", ...)}.
 #' }
-#' \item \code{x.axis.seq}: 
+#' \item \code{x.axis.seq}: A vector containing the values of the breaks on the x-axis. The default is the complete sequence of all possible total scores. 
 #' }
 #' 
 #' @return A single CICC-plot or a grid of CICC-plots.

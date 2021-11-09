@@ -36,14 +36,14 @@ The default is \code{which.item=1}. The argument will not be used if \code{all.i
   \item Add user-specified titles to each plot by stating all titles in a character vector on the form \code{plot.title = c("Title1", "Title2", ...)}. This option can not be combined with \code{"itemnumber"} and \code{"itemname"}.
   \item To get no title(s) use \code{plot.title = c("", "", ...)}.
 }
-\item \code{x.axis.seq}: 
+\item \code{x.axis.seq}: A vector containing the values of the breaks on the x-axis. The default is the complete sequence of all possible total scores. 
 }}
 }
 \value{
 A single CICC-plot or a grid of CICC-plots.
 }
 \description{
-This function construct Conditional Item Characteristic Curves for selected items in a Rasch-model. These plots can be used to investigate miss-fit of the model.
+This function construct Conditional Item Characteristic Curves for selected items in a Rasch-model. These plots can be used to investigate item misfit.
 }
 \examples{
 

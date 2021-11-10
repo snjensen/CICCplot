@@ -29,7 +29,7 @@ gamma_r_rec_pcm <- function(pars, r, par.grp){
 #'   \item To get no title(s) use \code{plot.title = c("", "", ...)}.
 #' }
 #' \item \code{x.axis.seq}: A vector containing the values of the breaks on the x-axis. The default is the complete sequence of all possible total scores. 
-#' \item \code{y.axis.title}: A character, which should be the label on the the y-axis. If no label is given, the default is "Conditional Item-Score".
+#' \item \code{y.axis.title}: A character, which should be the label on the the y-axis. If no label is given, the default is "Item Score".
 #' }
 #' 
 #' @return A single CICC-plot or a grid of CICC-plots.
@@ -119,7 +119,7 @@ CICCplot <- function(model, which.item = 1, lower.groups = NULL, all.items = F, 
       if (plot.settings$plot.title[1] == "itemname") { plottitle <- paste0(colnames(model$X)[which.item]) } else if (plot.settings$plot.title[1] == "itemnumber"){
         plottitle <- paste0("Item ", which.item) } else {plottitle <- plot.settings$plot.title[1]}}
     
-    if(is.null(plot.settings$y.axis.title)){yaxistitle <- paste0("Conditional Item-Score")} else{ yaxistitle <- plot.settings$y.axis.title}
+    if(is.null(plot.settings$y.axis.title)){yaxistitle <- paste0("Item Score")} else{ yaxistitle <- plot.settings$y.axis.title}
     
     col <- c("Expected" = "black", "Observed" = "red")
     if (!is.null(plot.settings$color)) col <- c("Expected" = plot.settings$color$expected[1], "Observed" = plot.settings$color$observed[1])
@@ -220,7 +220,7 @@ CICCplot <- function(model, which.item = 1, lower.groups = NULL, all.items = F, 
       if (plot.settings$plot.title[1] == "itemname") { plottitle <- paste0(colnames(model$X)[which.item]) } else if (plot.settings$plot.title[1] == "itemnumber"){
         plottitle <- paste0("Item ", which.item) } else {plottitle <- plot.settings$plot.title[j]}}
       
-      if(is.null(plot.settings$y.axis.title)){yaxistitle <- paste0("Conditional Item-Score")} else{ yaxistitle <- plot.settings$y.axis.title}
+      if(is.null(plot.settings$y.axis.title)){yaxistitle <- paste0("Item Score")} else{ yaxistitle <- plot.settings$y.axis.title}
       
       col <- c("Expected" = "black", "Observed" = "red")
       if (!is.null(plot.settings$color)) col <- c("Expected" = plot.settings$color$expected[1], "Observed" = plot.settings$color$observed[1])

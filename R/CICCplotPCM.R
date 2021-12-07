@@ -62,14 +62,18 @@ CICCplot <- function(model, which.item = 1, lower.groups = NULL, all.items = F, 
     #Tot.val <- 0:length(phi)
     Tot.val <- 0:length(betas)
     
-    exp.val <- sapply(Tot.val, FUN = function(R){ 
-      l <- par.itemgrp[par.itemgrp!=which.item]
+    {l <- par.itemgrp[par.itemgrp!=which.item]
       par.itemgrp_noitem <- ifelse( l > which.item, l-1, l)
-      g1 <- gamma_r_rec_pcm(betas, R, par.itemgrp)
-      return( sum( sapply( 1:sum(par.itemgrp==which.item), FUN = function(X){ 
-        g2 <- gamma_r_rec_pcm(betas[par.itemgrp!=which.item], R-X, par.itemgrp_noitem)
-        return( X*exp(betas[par.itemgrp==which.item][X])*g2/g1)})))
-    })
+      
+      x <- 0:sum(par.itemgrp==which.item)
+      g <- sapply( length(betas):(-max(x)), FUN = function(X){ gamma_r_rec_pcm(betas[par.itemgrp!=which.item], X, par.itemgrp_noitem) })
+      item.coef <- c( 1, exp(betas[par.itemgrp==which.item]))
+      
+      exp.val <- sapply(Tot.val, FUN = function(R){
+        g_index <- g[(max(Tot.val)+1-R):(max(x)+max(Tot.val)+1 -R)]
+        return(sum(x*item.coef*g_index)/sum(item.coef*g_index))
+      })
+    }
     
     data_exp <- data.frame(Tot.val, exp.val)
     
@@ -162,15 +166,20 @@ CICCplot <- function(model, which.item = 1, lower.groups = NULL, all.items = F, 
     for (k in ii) {
       
       which.item <- k 
-      l <- par.itemgrp[par.itemgrp!=which.item]
-      par.itemgrp_noitem <- ifelse( l > which.item, l-1, l)
       
-      exp.val <- sapply(Tot.val, FUN = function(R){
-        g1 <- gamma_r_rec_pcm(betas, R, par.itemgrp)
-        return( sum( sapply( 1:sum(par.itemgrp==which.item), FUN = function(X){ 
-          g2 <- gamma_r_rec_pcm(betas[par.itemgrp!=which.item], R-X, par.itemgrp_noitem)
-          return( X*exp(betas[par.itemgrp==which.item][X])*g2/g1)})))
-      })
+      {l <- par.itemgrp[par.itemgrp!=which.item]
+        par.itemgrp_noitem <- ifelse( l > which.item, l-1, l)
+        
+        x <- 0:sum(par.itemgrp==which.item)
+        g <- sapply( length(betas):(-max(x)), FUN = function(X){ gamma_r_rec_pcm(betas[par.itemgrp!=which.item], X, par.itemgrp_noitem) })
+        item.coef <- c( 1, exp(betas[par.itemgrp==which.item]))
+        
+        exp.val <- sapply(Tot.val, FUN = function(R){
+          g_index <- g[(max(Tot.val)+1-R):(max(x)+max(Tot.val)+1 -R)]
+          return(sum(x*item.coef*g_index)/sum(item.coef*g_index))
+        })
+      }
+      
       data_exp <- data.frame(Tot.val, exp.val)
       
       if (!is.double(lower.groups) & !is.integer(lower.groups)){

@@ -7,5 +7,5 @@ Author: Author
 Maintainer: Who to complain to <yourfault@somewhere.net>
 Description: Construction of plots for graphically investigation of itemfit dichotomous and polytomous Rasch models estimated using eRm-package.
 License: What license is it under?
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Imports: eRm, ggpubr, ggplot2

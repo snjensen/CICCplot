@@ -12,7 +12,7 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 
 // gamma_r_cpp
 double gamma_r_cpp(NumericVector pars, int r, NumericVector parGrp);
-RcppExport SEXP _CICCrasch_gamma_r_cpp(SEXP parsSEXP, SEXP rSEXP, SEXP parGrpSEXP) {
+RcppExport SEXP _RASCHplot_gamma_r_cpp(SEXP parsSEXP, SEXP rSEXP, SEXP parGrpSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -25,11 +25,11 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_CICCrasch_gamma_r_cpp", (DL_FUNC) &_CICCrasch_gamma_r_cpp, 3},
+    {"_RASCHplot_gamma_r_cpp", (DL_FUNC) &_RASCHplot_gamma_r_cpp, 3},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_CICCrasch(DllInfo *dll) {
+RcppExport void R_init_RASCHplot(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

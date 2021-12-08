@@ -1,4 +1,4 @@
-Package: CICCrasch
+Package: RASCHplot
 Type: Package
 Title: Graphical investigation of itemfit for dichotomous and polytomous Rasch models
 Version: 1.0

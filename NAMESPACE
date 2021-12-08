@@ -4,6 +4,6 @@ export(CICCplot)
 import(ggplot2)
 import(ggpubr)
 
-useDynLib(CICCrasch, .registration=TRUE)
+useDynLib(RASCHplot, .registration=TRUE)
 importFrom(Rcpp, evalCpp)
 exportPattern("^[[:alpha:]]+")

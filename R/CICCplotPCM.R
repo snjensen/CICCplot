@@ -15,7 +15,7 @@ gamma_r_rec_pcm <- function(pars, r, par.grp){
 #' The default is \code{which.item=1}. The argument will not be used if \code{all.items = TRUE}.
 #' @param lower.groups  A vector used for dividing the set of possible total scores into intervals, for which the empirical expected item-score will be calculated and added to the plot. The vector should contain the lower points of the intervals, that the set of possible total scores should be divided into. If zero does not appear in the vector, it will be added automatically. If \code{lower.groups = "all"}, the empirical expected item-score will be plotted for every possible total score.
 #' @param all.items Argument of type logical. If \code{TRUE} a CICC-plot will be constructed for all items in the model-object.
-#' @param grid.items Argument of type logical. If \code{TRUE}, the items selected by \code{which.item or \code{all.items} will be arranged in grids with at most four plots per grid. Default is \code{grid.items = FALSE}.
+#' @param grid.items Argument of type logical. If \code{TRUE}, the items selected by \code{which.item} or \code{all.items} will be arranged in grids with at most four plots per grid. Default is \code{grid.items = FALSE}.
 #' @param error.bar Argument of type logical. If \code{TRUE}, errorbars illustrating the empirical confidence interval of the observed means of the conditional item score will be added to the plot(s). The confidence intervals are calculated as follows: For each interval \eqn{l} of the total score, induced by the lower-groups argument, the mean \eqn{x_l}, variance \eqn{var(x_l)}, and number of observations \eqn{n_l} within the interval of the total score will be calculated. The confidence interval for the mean \eqn{x_l} is then found as \eqn{x_l \pm 2\cdot \sqrt(\frac{var(x_l)}{n_l})}. Default value is \code{error.bar = FALSE}.
 #' 
 #' @param plot.settings A list containing settings for the layout of the figure(s):
@@ -66,7 +66,7 @@ CICCplot <- function(model, which.item = 1, lower.groups = NULL, all.items = F, 
       par.itemgrp_noitem <- ifelse( l > which.item, l-1, l)
       
       x <- 0:sum(par.itemgrp==which.item)
-      g <- sapply( length(betas):(-max(x)), FUN = function(X){ gamma_r_rec_pcm(betas[par.itemgrp!=which.item], X, par.itemgrp_noitem) })
+      g <- sapply( length(betas):(-max(x)), FUN = function(X){ gamma_r_cpp(betas[par.itemgrp!=which.item], X, par.itemgrp_noitem) })
       item.coef <- c( 1, exp(betas[par.itemgrp==which.item]))
       
       exp.val <- sapply(Tot.val, FUN = function(R){
@@ -171,7 +171,7 @@ CICCplot <- function(model, which.item = 1, lower.groups = NULL, all.items = F, 
         par.itemgrp_noitem <- ifelse( l > which.item, l-1, l)
         
         x <- 0:sum(par.itemgrp==which.item)
-        g <- sapply( length(betas):(-max(x)), FUN = function(X){ gamma_r_rec_pcm(betas[par.itemgrp!=which.item], X, par.itemgrp_noitem) })
+        g <- sapply( length(betas):(-max(x)), FUN = function(X){ gamma_r_cpp(betas[par.itemgrp!=which.item], X, par.itemgrp_noitem) })
         item.coef <- c( 1, exp(betas[par.itemgrp==which.item]))
         
         exp.val <- sapply(Tot.val, FUN = function(R){

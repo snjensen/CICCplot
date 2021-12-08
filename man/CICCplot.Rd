@@ -25,6 +25,8 @@ The default is \code{which.item=1}. The argument will not be used if \code{all.i
 
 \item{all.items}{Argument of type logical. If \code{TRUE} a CICC-plot will be constructed for all items in the model-object.}
 
+\item{grid.items}{Argument of type logical. If \code{TRUE}, the items selected by \code{which.item} or \code{all.items} will be arranged in grids with at most four plots per grid. Default is \code{grid.items = FALSE}.}
+
 \item{error.bar}{Argument of type logical. If \code{TRUE}, errorbars illustrating the empirical confidence interval of the observed means of the conditional item score will be added to the plot(s). The confidence intervals are calculated as follows: For each interval \eqn{l} of the total score, induced by the lower-groups argument, the mean \eqn{x_l}, variance \eqn{var(x_l)}, and number of observations \eqn{n_l} within the interval of the total score will be calculated. The confidence interval for the mean \eqn{x_l} is then found as \eqn{x_l \pm 2\cdot \sqrt(\frac{var(x_l)}{n_l})}. Default value is \code{error.bar = FALSE}.}
 
 \item{plot.settings}{A list containing settings for the layout of the figure(s):
